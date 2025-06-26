@@ -1,0 +1,15 @@
+schema_version = "1.0.0"
+
+id = "blender_crop_canvas"
+version = "1.0.0"
+name = "Crop Canvas"
+tagline = "Simple tool to crop canvas to render the only wanted area."
+maintainer = "Zawaro <zawaroarts@gmail.com>"
+type = "add-on"
+license = [
+  "SPDX:GPL-3.0-or-later",
+]
+
+tags = ["View3D", "Render"]
+
+blender_version_min = "4.2.0"
