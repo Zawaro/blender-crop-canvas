@@ -30,7 +30,7 @@ bl_info = {
   "author": "Zawaro",
   "description": "Simple tool to crop canvas to render the only wanted area",
   "blender": (3, 0, 0),
-  "version": (1, 0, 0),
+  "version": (1, 1, 0),
   "location": "View3D",
   "warning": "",
   "category": "Render",
