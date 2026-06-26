@@ -29,6 +29,26 @@ class CropCanvasProperties(bpy.types.PropertyGroup):
     update=lambda self, ctx: self.update_canvas_region(ctx),
   )
 
+  offset_x: bpy.props.IntProperty(
+    name="Offset X",
+    description="Horizontal shift from center",
+    default=0,
+    min=-4096,
+    max=4096,
+    subtype="PIXEL",
+    update=lambda self, ctx: self.update_canvas_region(ctx),
+  )
+
+  offset_y: bpy.props.IntProperty(
+    name="Y",
+    description="Vertical shift from center",
+    default=0,
+    min=-4096,
+    max=4096,
+    subtype="PIXEL",
+    update=lambda self, ctx: self.update_canvas_region(ctx),
+  )
+
   def update_canvas_region(self, context):
     render = context.scene.render
     res_x = render.resolution_x
@@ -37,10 +57,16 @@ class CropCanvasProperties(bpy.types.PropertyGroup):
     dim_x = min(self.x_int, res_x)
     dim_y = min(self.y_int, res_y)
 
-    xmin = res_x / 2 - dim_x / 2
-    xmax = res_x / 2 + dim_x / 2
-    ymin = res_y / 2 - dim_y / 2
-    ymax = res_y / 2 + dim_y / 2
+    max_offset_x = res_x / 2 - dim_x / 2
+    max_offset_y = res_y / 2 - dim_y / 2
+
+    offset_x = max(-max_offset_x, min(self.offset_x, max_offset_x))
+    offset_y = max(-max_offset_y, min(self.offset_y, max_offset_y))
+
+    xmin = res_x / 2 - dim_x / 2 + offset_x
+    xmax = res_x / 2 + dim_x / 2 + offset_x
+    ymin = res_y / 2 - dim_y / 2 + offset_y
+    ymax = res_y / 2 + dim_y / 2 + offset_y
 
     if self.use_crop_canvas:
       render.use_border = True
@@ -78,6 +104,8 @@ def draw_crop_canvas(self, context):
   layout.prop(crop, "use_crop_canvas")
   layout.prop(crop, "x_int")
   layout.prop(crop, "y_int")
+  layout.prop(crop, "offset_x")
+  layout.prop(crop, "offset_y")
 
 
 def crop_canvas_monitor(scene):
